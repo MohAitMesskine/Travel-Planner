@@ -1,4 +1,6 @@
 import os
+import sqlite3
+from pathlib import Path
 import certifi
 from dotenv import load_dotenv
 
@@ -15,6 +17,7 @@ import psycopg
 from psycopg.rows import dict_row
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.postgres import PostgresSaver
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.types import Command, interrupt
 from langchain_core.messages import (
     AnyMessage,
@@ -38,10 +41,7 @@ def get_database_url():
     database_url = os.getenv("DATABASE_URL")
 
     if not database_url:
-        raise ValueError(
-            "DATABASE_URL is missing. "
-            "Please add your Render PostgreSQL External Database URL to .env"
-        )
+        return None
 
     if "sslmode=" not in database_url:
         separator = "&" if "?" in database_url else "?"
@@ -59,7 +59,7 @@ if not GROQ_API_KEY:
 # LLM - original model kept
 # =========================
 llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
+    model="openai/gpt-oss-120b",
     api_key=GROQ_API_KEY,
 )
 
@@ -720,12 +720,18 @@ graph.add_edge("guardrail_blocked", END)
 # PostgreSQL Checkpointer - original persistence kept
 # =========================
 DATABASE_URL = get_database_url()
-_conn = psycopg.connect(
-    DATABASE_URL,
-    autocommit=True,
-    row_factory=dict_row,
-)
-checkpointer = PostgresSaver(_conn)
+if DATABASE_URL:
+    _conn = psycopg.connect(
+        DATABASE_URL,
+        autocommit=True,
+        row_factory=dict_row,
+    )
+    checkpointer = PostgresSaver(_conn)
+else:
+    sqlite_path = Path(__file__).resolve().parent / "checkpoints.sqlite"
+    _conn = sqlite3.connect(sqlite_path, check_same_thread=False)
+    checkpointer = SqliteSaver(_conn)
+
 checkpointer.setup()
 
 travel_graph = graph.compile(checkpointer=checkpointer)

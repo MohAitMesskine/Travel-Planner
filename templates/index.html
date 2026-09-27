@@ -1,136 +1,1569 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TripMate AI</title>
-  <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripMate AI | AtoZ Services</title>
+
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/style.css?v=3">
+
+    <!-- Direct Inline CSS to guarantee instant application without caching issues -->
+    <style>
+        :root {
+            --primary-orange: #ea580c;
+            --primary-orange-hover: #c2410c;
+            --primary-orange-light: #fff7ed;
+            --primary-orange-border: #ffedd5;
+            --primary-gradient: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            --slate-900: #0f172a;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --slate-50: #f8fafc;
+            --white: #ffffff;
+            --success-green: #059669;
+            --success-green-bg: #ecfdf5;
+            --success-green-border: #a7f3d0;
+            --card-radius: 16px;
+            --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            --card-border: 1px solid #eef2f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: #fafbfc !important;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #fafbfc !important;
+            color: var(--slate-800) !important;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Warm Polygonal Background (Top-Right) */
+        .poly-bg-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 650px;
+            height: 580px;
+            background: url('/static/bg_poly.jpg') no-repeat top right;
+            background-size: cover;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.85;
+            -webkit-mask-image: radial-gradient(circle at 100% 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,0.6) 65%, transparent 88%);
+            mask-image: radial-gradient(circle at 100% 0%, rgba(0,0,0,1) 35%, rgba(0,0,0,0.6) 65%, transparent 88%);
+        }
+
+        /* Header */
+        .app-header {
+            background: rgba(255, 255, 255, 0.94);
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .header-inner {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--slate-600);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab:hover {
+            color: var(--primary-orange);
+            background-color: var(--primary-orange-light);
+        }
+
+        .nav-tab.active {
+            background-color: var(--primary-orange);
+            color: var(--white);
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-icon-control {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--slate-200);
+            background: var(--white);
+            color: var(--primary-orange);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-icon-control:hover {
+            background: var(--primary-orange-light);
+            border-color: var(--primary-orange-border);
+        }
+
+        .lang-selector {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 9999px;
+            border: 1px solid var(--slate-200);
+            background: var(--white);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--slate-700);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .lang-selector:hover {
+            border-color: var(--slate-300);
+            background: var(--slate-50);
+        }
+
+        .flag-icon { font-size: 15px; }
+        .chevron-icon { font-size: 10px; color: var(--slate-400); }
+
+        /* Main Wrapper */
+        .main-wrapper {
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 32px 28px 60px;
+        }
+
+        /* Hero */
+        .hero-block {
+            display: grid;
+            grid-template-columns: 54% 46%;
+            align-items: center;
+            min-height: 410px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .hero-left {
+            padding-right: 20px;
+        }
+
+        .hero-badge-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-orange);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .tag-bar { font-weight: 900; }
+
+        .hero-headline {
+            font-size: clamp(34px, 4.2vw, 54px);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            color: var(--slate-900);
+        }
+
+        .highlight-orange {
+            color: var(--primary-orange);
+        }
+
+        .hero-intro-text {
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--slate-500);
+            margin-top: 18px;
+            margin-bottom: 30px;
+            max-width: 610px;
+        }
+
+        .hero-features-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .feature-capsule {
+            background: var(--white);
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 12px 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-capsule:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        .capsule-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-orange-light);
+            color: var(--primary-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .capsule-info strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--slate-800);
+        }
+
+        .capsule-info span {
+            display: block;
+            font-size: 10px;
+            color: var(--slate-500);
+            line-height: 1.3;
+            margin-top: 2px;
+        }
+
+        /* Hero Right Visuals */
+        .hero-right {
+            position: relative;
+            height: 390px;
+        }
+
+        .visual-stage {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .travel-card {
+            position: absolute;
+            border-radius: 14px;
+            border: 4px solid var(--white);
+            overflow: hidden;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16);
+            background: var(--white);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .travel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-japan {
+            top: 20px;
+            right: 140px;
+            width: 205px;
+            height: 140px;
+            transform: rotate(-6deg);
+            z-index: 2;
+        }
+
+        .card-dubai {
+            top: 55px;
+            right: 10px;
+            width: 195px;
+            height: 135px;
+            transform: rotate(5deg);
+            z-index: 1;
+        }
+
+        .card-thailand {
+            top: 175px;
+            right: 95px;
+            width: 215px;
+            height: 145px;
+            transform: rotate(-3deg);
+            z-index: 3;
+        }
+
+        .card-japan:hover,
+        .card-dubai:hover,
+        .card-thailand:hover {
+            transform: scale(1.04) rotate(0deg);
+            z-index: 10;
+        }
+
+        .airplane-element {
+            position: absolute;
+            top: 60px;
+            left: -20px;
+            width: 260px;
+            z-index: 4;
+            transform: rotate(-12deg);
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            filter: drop-shadow(0 20px 24px rgba(15, 23, 42, 0.18));
+        }
+
+        .airplane-element img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .floating-values-pill {
+            position: absolute;
+            bottom: 22px;
+            right: 15px;
+            z-index: 5;
+            background: var(--white);
+            border-radius: 9999px;
+            padding: 10px 22px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--slate-700);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            border: 1px solid #f1f5f9;
+        }
+
+        .orange-word {
+            color: var(--primary-orange);
+            font-weight: 700;
+        }
+
+        /* Planner Card */
+        .planner-box {
+            background: var(--white);
+            border-radius: var(--card-radius);
+            border: var(--card-border);
+            padding: 24px 28px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+        }
+
+        .planner-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .planner-title-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .compass-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary-orange);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 6px 16px rgba(234, 88, 12, 0.28);
+            flex-shrink: 0;
+        }
+
+        .card-main-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin-bottom: 3px;
+        }
+
+        .card-helper-subtitle {
+            font-size: 13px;
+            color: var(--slate-500);
+        }
+
+        .online-status-badge {
+            background: var(--success-green-bg);
+            color: var(--success-green);
+            border: 1px solid var(--success-green-border);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pulsing-green-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+        }
+
+        .input-form-grid {
+            display: flex;
+            align-items: stretch;
+            gap: 16px;
+        }
+
+        .textarea-field-wrapper {
+            flex: 1;
+            position: relative;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            background: var(--white);
+            transition: all 0.2s ease;
+        }
+
+        .textarea-field-wrapper:focus-within {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+        }
+
+        .textarea-field-wrapper textarea {
+            width: 100%;
+            height: 85px;
+            border: none;
+            outline: none;
+            padding: 14px 16px 28px 16px;
+            font-size: 13.5px;
+            color: var(--slate-800);
+            font-family: inherit;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        .textarea-field-wrapper textarea::placeholder {
+            color: var(--slate-400);
+        }
+
+        .char-indicator {
+            position: absolute;
+            bottom: 8px;
+            right: 14px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--slate-400);
+        }
+
+        .btn-generate-draft {
+            background: var(--primary-gradient);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            padding: 0 32px;
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(234, 88, 12, 0.28);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-generate-draft:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(234, 88, 12, 0.35);
+        }
+
+        .btn-generate-draft:active {
+            transform: translateY(1px);
+        }
+
+        .btn-generate-draft:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-content-flex {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .quick-prompts-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .prompt-chip {
+            background: var(--white);
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 8px 15px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--slate-700);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .prompt-chip i { font-size: 13px; }
+        .chip-red { color: #ef4444; }
+        .chip-blue { color: #3b82f6; }
+        .chip-green { color: #10b981; }
+        .chip-dark { color: #64748b; }
+
+        .prompt-chip:hover {
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+            background: var(--primary-orange-light);
+        }
+
+        .alert-error-box {
+            margin-bottom: 20px;
+            padding: 14px 18px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* 3-Column Structured Dashboard */
+        .structured-tri-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1.35fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+            align-items: stretch;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: var(--card-radius);
+            border: var(--card-border);
+            padding: 22px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .card-identity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .icon-blue { background: #eff6ff; color: #3b82f6; }
+        .icon-blue-doc { background: #eff6ff; color: #2563eb; }
+        .icon-orange-user { background: var(--primary-orange-light); color: var(--primary-orange); }
+
+        .col-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--slate-900);
+            line-height: 1.2;
+        }
+
+        .col-sub {
+            display: block;
+            font-size: 11px;
+            color: var(--slate-400);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .thread-tag {
+            display: block;
+            font-size: 10px;
+            color: var(--slate-400);
+            margin-top: 1px;
+        }
+
+        .badge-guardrail {
+            background: var(--success-green-bg);
+            color: var(--success-green);
+            border: 1px solid var(--success-green-border);
+            padding: 5px 12px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-guardrail.blocked {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fca5a5;
+        }
+
+        .card-explanatory-text {
+            font-size: 12.5px;
+            color: var(--slate-500);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .status-panel {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-100);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+        }
+
+        .status-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 12px;
+            color: var(--slate-500);
+            line-height: 1.45;
+        }
+
+        .info-icon {
+            font-size: 14px;
+            color: var(--slate-400);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .agent-badges-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: auto;
+        }
+
+        .agent-tag {
+            padding: 5px 11px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tag-analyse { background: #f3e8ff; color: #7e22ce; }
+        .tag-vols { background: #eff6ff; color: #2563eb; }
+        .tag-hotels { background: #fff7ed; color: #c2410c; }
+        .tag-meteo { background: #e0f2fe; color: #0284c7; }
+        .tag-budget { background: #ecfdf5; color: #047857; }
+        .tag-visites { background: #fdf2f8; color: #db2777; }
+        .tag-synthese { background: #f1f5f9; color: #475569; }
+
+        .color-dot { width: 6px; height: 6px; border-radius: 50%; }
+        .dot-purple { background: #9333ea; }
+
+        .agent-tag.active-pill {
+            border-color: currentColor;
+            box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.15);
+            font-weight: 700;
+        }
+
+        .action-buttons-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-tool {
+            background: var(--white);
+            border: 1px solid var(--slate-200);
+            color: var(--slate-700);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tool:hover {
+            border-color: var(--slate-400);
+            background: var(--slate-50);
+        }
+
+        .btn-download {
+            color: var(--primary-orange);
+            border-color: #fed7aa;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-orange-light);
+            border-color: var(--primary-orange);
+        }
+
+        .plan-display-stage {
+            background: var(--slate-50);
+            border: 1px solid var(--slate-100);
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            min-height: 240px;
+            max-height: 480px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .empty-state-holder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            text-align: center;
+            padding: 30px 10px;
+            color: var(--slate-400);
+        }
+
+        .empty-doc-icon {
+            font-size: 38px;
+            color: var(--slate-300);
+            margin-bottom: 12px;
+        }
+
+        .empty-caption {
+            font-size: 13px;
+            color: var(--slate-500);
+        }
+
+        .result-rendered-body {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: var(--slate-800);
+        }
+
+        .result-rendered-body h1,
+        .result-rendered-body h2,
+        .result-rendered-body h3 {
+            color: var(--slate-900);
+            margin-top: 14px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .result-rendered-body h1 { font-size: 18px; }
+        .result-rendered-body h2 { font-size: 16px; }
+        .result-rendered-body h3 { font-size: 14px; }
+
+        .result-rendered-body ul,
+        .result-rendered-body ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .result-rendered-body p {
+            margin-bottom: 10px;
+        }
+
+        .result-rendered-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 12px;
+        }
+
+        .result-rendered-body th,
+        .result-rendered-body td {
+            padding: 8px 10px;
+            border: 1px solid var(--slate-200);
+        }
+
+        .result-rendered-body th {
+            background: var(--slate-100);
+            font-weight: 600;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            border: 1px solid var(--slate-200);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 12.5px;
+            color: var(--slate-800);
+            font-family: inherit;
+            resize: none;
+            height: 80px;
+            outline: none;
+            transition: all 0.2s ease;
+            margin-bottom: 14px;
+        }
+
+        .feedback-textarea:focus {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+        }
+
+        .hitl-actions-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-hitl-primary {
+            background: var(--primary-orange);
+            color: var(--white);
+            border: none;
+            border-radius: 9px;
+            padding: 12px 14px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-hitl-primary:hover {
+            background: var(--primary-orange-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-hitl-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-hitl-secondary {
+            background: var(--white);
+            color: var(--primary-orange);
+            border: 1px solid var(--primary-orange);
+            border-radius: 9px;
+            padding: 11px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-hitl-secondary:hover {
+            background: var(--primary-orange-light);
+        }
+
+        .btn-hitl-secondary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Tech Section */
+        .tech-section {
+            padding: 40px 0 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .tech-header-box {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 30px;
+        }
+
+        .section-eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--primary-orange);
+            text-transform: uppercase;
+        }
+
+        .tech-section-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--slate-900);
+            margin-top: 6px;
+            margin-bottom: 8px;
+        }
+
+        .tech-section-sub {
+            font-size: 13.5px;
+            color: var(--slate-500);
+            line-height: 1.6;
+        }
+
+        .tech-card-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+        }
+
+        .tech-box {
+            background: var(--white);
+            border: var(--card-border);
+            border-radius: 12px;
+            padding: 18px 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .tech-box:hover {
+            transform: translateY(-3px);
+            border-color: #fed7aa;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .tech-box i {
+            font-size: 22px;
+            color: var(--primary-orange);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .tech-box strong {
+            display: block;
+            font-size: 13px;
+            color: var(--slate-800);
+            margin-bottom: 4px;
+        }
+
+        .tech-box span {
+            display: block;
+            font-size: 10.5px;
+            color: var(--slate-400);
+            line-height: 1.35;
+        }
+
+        /* Footer */
+        .app-footer {
+            background: var(--white);
+            border-top: 1px solid #f1f5f9;
+            padding: 24px 28px;
+        }
+
+        .footer-inner {
+            max-width: 1360px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .footer-center-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .footer-center-links a {
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--slate-600);
+            transition: color 0.2s ease;
+        }
+
+        .footer-center-links a:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-right-tagline {
+            font-size: 13px;
+            color: var(--slate-600);
+        }
+
+        .orange-text {
+            color: var(--primary-orange);
+            font-weight: 700;
+        }
+
+        .loader {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 1140px) {
+            .hero-block {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                gap: 30px;
+            }
+            .hero-right { height: 340px; }
+            .structured-tri-dashboard { grid-template-columns: 1fr; }
+            .tech-card-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { padding: 12px 16px; }
+            .nav-menu { display: none; }
+            .main-wrapper { padding: 20px 16px 40px; }
+            .hero-headline { font-size: 32px; }
+            .hero-features-row { grid-template-columns: repeat(2, 1fr); }
+            .input-form-grid { flex-direction: column; }
+            .btn-generate-draft { min-width: 100%; padding: 14px; }
+            .tech-card-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+            .footer-center-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="page-bg">
-    <div class="gradient-circle circle-1"></div>
-    <div class="gradient-circle circle-2"></div>
-    <div class="gradient-circle circle-3"></div>
-  </div>
 
-  <main class="app-container">
-    <section class="hero-section">
-      <div class="badge">
-        ✈️ TripMate AI — LangGraph, MCP, Supervisor, Guardrails & HITL
-      </div>
-      <h1>Plan Your Perfect Trip with AI</h1>
-      <p>
-        Search flights, discover hotels, check weather, assess your budget,
-        and review the AI-generated draft before the final itinerary is created.
-      </p>
-    </section>
+    <!-- Background Poly Overlay (Top-Right) -->
+    <div class="poly-bg-overlay" aria-hidden="true"></div>
 
-    <section class="planner-card">
-      <div class="card-header">
-        <div>
-          <h2>Where do you want to go?</h2>
-          <p>
-            Example: Plan a complete 7 days Japan trip from Bangladesh under 2 lakhs.
-          </p>
+    <!-- =========================================================
+         HEADER
+    ========================================================= -->
+    <header class="app-header">
+        <div class="header-inner">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link" aria-label="AtoZ Services Accueil">
+                <img src="/static/atoz.png" alt="AtoZ SERVICES" class="brand-logo">
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-menu">
+                <a href="#" class="nav-tab active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Accueil</span>
+                </a>
+                <a href="#planner" class="nav-tab">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Planificateur</span>
+                </a>
+                <a href="#features" class="nav-tab">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <span>Fonctionnalités</span>
+                </a>
+                <a href="#about" class="nav-tab">
+                    <i class="fa-regular fa-circle-question"></i>
+                    <span>À propos</span>
+                </a>
+            </nav>
+
+            <!-- Actions (Theme switch & Language) -->
+            <div class="header-controls">
+                <button type="button" class="btn-icon-control" id="themeToggle" title="Mode clair / sombre" aria-label="Changer de thème">
+                    <i class="fa-regular fa-sun"></i>
+                </button>
+
+                <div class="lang-selector" title="Sélection de la langue">
+                    <span class="flag-icon">🇫🇷</span>
+                    <span class="lang-code">FR</span>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+            </div>
         </div>
-        <div class="status-pill">
-          <span class="status-dot"></span>
-          Online
+    </header>
+
+    <!-- =========================================================
+         MAIN CONTENT WRAPPER
+    ========================================================= -->
+    <main class="main-wrapper">
+
+        <!-- =====================================================
+             HERO SECTION
+        ====================================================== -->
+        <section class="hero-block">
+            <div class="hero-left">
+                <div class="hero-badge-tag">
+                    <span class="tag-bar">—</span>
+                    <span>TRIPMATE AI — VOTRE ASSISTANT DE VOYAGE INTELLIGENT</span>
+                </div>
+
+                <h1 class="hero-headline">
+                    Planifiez votre voyage parfait<br>
+                    <span class="highlight-orange">avec l'IA</span>
+                </h1>
+
+                <p class="hero-intro-text">
+                    Recherchez des vols, découvrez des hôtels, consultez la météo, contrôlez votre budget
+                    et examinez le brouillon généré par l'IA avant la création de l'itinéraire final.
+                </p>
+
+                <!-- 4 Quick Feature Cards -->
+                <div class="hero-features-row">
+                    <div class="feature-capsule">
+                        <div class="capsule-icon">
+                            <i class="fa-solid fa-plane"></i>
+                        </div>
+                        <div class="capsule-info">
+                            <strong>Vols</strong>
+                            <span>Comparaison des meilleurs prix</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-capsule">
+                        <div class="capsule-icon">
+                            <i class="fa-solid fa-hotel"></i>
+                        </div>
+                        <div class="capsule-info">
+                            <strong>Hôtels</strong>
+                            <span>Les meilleures options d'hébergement</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-capsule">
+                        <div class="capsule-icon">
+                            <i class="fa-solid fa-cloud-sun"></i>
+                        </div>
+                        <div class="capsule-info">
+                            <strong>Météo</strong>
+                            <span>Prévisions en temps réel</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-capsule">
+                        <div class="capsule-icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <div class="capsule-info">
+                            <strong>Budget</strong>
+                            <span>Planification optimisée</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Visual Right: Destination Cards, Airplane & Tagline -->
+            <div class="hero-right">
+                <div class="visual-stage">
+                    <!-- Photo Card 1: Japan -->
+                    <div class="travel-card card-japan">
+                        <img src="/static/japan.jpg" alt="Japon - Mont Fuji et Pagode">
+                    </div>
+
+                    <!-- Photo Card 2: Dubai -->
+                    <div class="travel-card card-dubai">
+                        <img src="/static/dubai.jpg" alt="Dubaï - Burj Khalifa Skyline">
+                    </div>
+
+                    <!-- Photo Card 3: Thailand -->
+                    <div class="travel-card card-thailand">
+                        <img src="/static/thailand.jpg" alt="Thaïlande - Plage et falaises">
+                    </div>
+
+                    <!-- Commercial Airplane Flying In Perspective -->
+                    <div class="airplane-element">
+                        <img src="/static/airplane.jpg" alt="Avion de ligne en vol">
+                    </div>
+
+                    <!-- Floating Tagline Pill -->
+                    <div class="floating-values-pill">
+                        Guided by <strong class="orange-word">vision</strong>, driven by values
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             PLANNER CARD (MAIN INPUT)
+        ====================================================== -->
+        <section id="planner" class="planner-box">
+            <div class="planner-head">
+                <div class="planner-title-group">
+                    <div class="compass-avatar">
+                        <i class="fa-solid fa-compass"></i>
+                    </div>
+                    <div>
+                        <h2 class="card-main-title">Où souhaitez-vous aller ?</h2>
+                        <p class="card-helper-subtitle">
+                            Exemple : Planifiez un voyage complet de 7 jours au Paris depuis Agadir .
+                        </p>
+                    </div>
+                </div>
+
+                <div class="online-status-badge">
+                    <span class="pulsing-green-dot"></span>
+                    <span>En ligne</span>
+                </div>
+            </div>
+
+            <!-- Input & Generate Action -->
+            <div class="planner-body">
+                <div class="input-form-grid">
+                    <div class="textarea-field-wrapper">
+                        <textarea
+                            id="userInput"
+                            maxlength="1000"
+                            placeholder="Planifiez un voyage complet de 7 jours au Japon incluant les vols, les hôtels et les visites touristiques."
+                        ></textarea>
+                        <div class="char-indicator" id="charCounter">0 / 1000</div>
+                    </div>
+
+                    <button id="sendBtn" class="btn-generate-draft" onclick="sendMessage()">
+                        <span id="btnText" class="btn-content-flex">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>Générer un brouillon</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                        <span id="btnLoader" class="loader hidden"></span>
+                    </button>
+                </div>
+
+                <!-- Quick Prompts Buttons -->
+                <div class="quick-prompts-row">
+                    <button type="button" class="prompt-chip" onclick="setPrompt('Planifiez un voyage complet de 7 jours au Casablanca incluant les vols, les hôtels et les visites touristiques.')">
+                        <i class="fa-solid fa-location-dot chip-red"></i>
+                        <span>Voyage au Casablanca</span>
+                    </button>
+                    <button type="button" class="prompt-chip" onclick="setPrompt('Planifiez un voyage de 5 jours à Dubaï avec hôtels de standing, safari et visites.')">
+                        <i class="fa-solid fa-building chip-blue"></i>
+                        <span>Voyage à Dubaï</span>
+                    </button>
+                    <button type="button" class="prompt-chip" onclick="setPrompt('Planifiez un voyage de 7 jours en Thaïlande avec plages paradisiaques et budget maîtrisé.')">
+                        <i class="fa-solid fa-umbrella-beach chip-green"></i>
+                        <span>Voyage à Paris</span>
+                    </button>
+                    <button type="button" class="prompt-chip" onclick="setPrompt('Comparez les options de vols mondiaux économiques pour un départ le mois prochain.')">
+                        <i class="fa-solid fa-globe chip-dark"></i>
+                        <span>Vols mondiaux</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Notification Banner -->
+        <div id="errorBox" class="alert-error-box hidden" role="alert"></div>
+
+        <!-- =====================================================
+             STRUCTURED 3-COLUMN WORKFLOW & HITL DASHBOARD
+        ====================================================== -->
+        <section id="workflow" class="structured-tri-dashboard">
+
+            <!-- COLUMN 1: PLAN D'EXÉCUTION (Agent Superviseur) -->
+            <div id="workflowSection" class="dashboard-card">
+                <div class="card-top-bar">
+                    <div class="card-identity">
+                        <div class="avatar-icon icon-blue">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <div>
+                            <h3 class="col-title">Plan d'exécution</h3>
+                            <span class="col-sub">Agent superviseur</span>
+                        </div>
+                    </div>
+
+                    <span id="guardrailBadge" class="badge-guardrail">
+                        <i class="fa-solid fa-check"></i>
+                        Garde-fou validé
+                    </span>
+                </div>
+
+                <p class="card-explanatory-text">
+                    L'agent superviseur analyse votre demande et coordonne les agents spécialisés pour générer le meilleur plan de voyage.
+                </p>
+
+                <!-- Status / Reasoning Box -->
+                <div class="status-panel">
+                    <div id="supervisorStatusRow" class="status-info-row">
+                        <i class="fa-regular fa-circle-info info-icon"></i>
+                        <span id="supervisorReasoning">Le plan d'exécution s'affichera ici après la génération...</span>
+                    </div>
+                </div>
+
+                <!-- Specialist Agent Pills -->
+                <div id="agentChips" class="agent-badges-wrap">
+                    <span class="agent-tag tag-analyse" data-agent="analyse">
+                        <span class="color-dot dot-purple"></span> Analyse
+                    </span>
+                    <span class="agent-tag tag-vols" data-agent="flight_agent">
+                        <i class="fa-solid fa-plane"></i> Vols
+                    </span>
+                    <span class="agent-tag tag-hotels" data-agent="hotel_agent">
+                        <i class="fa-solid fa-hotel"></i> Hôtels
+                    </span>
+                    <span class="agent-tag tag-meteo" data-agent="weather_agent">
+                        <i class="fa-solid fa-cloud-sun"></i> Météo
+                    </span>
+                    <span class="agent-tag tag-budget" data-agent="budget_agent">
+                        <i class="fa-solid fa-wallet"></i> Budget
+                    </span>
+                    <span class="agent-tag tag-visites" data-agent="itinerary_agent">
+                        <i class="fa-solid fa-camera"></i> Visites
+                    </span>
+                    <span class="agent-tag tag-synthese" data-agent="synthese">
+                        <i class="fa-solid fa-globe"></i> Synthèse
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- COLUMN 2: VOTRE PLAN DE VOYAGE (Résultats IA) -->
+            <div id="resultSection" class="dashboard-card card-center-span">
+                <div class="card-top-bar">
+                    <div class="card-identity">
+                        <div class="avatar-icon icon-blue-doc">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <div>
+                            <h3 class="col-title" id="resultTitle">Votre plan de voyage</h3>
+                            <span class="col-sub">Résultats générés par l'IA</span>
+                            <span id="threadInfo" class="thread-tag"></span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-group">
+                        <button type="button" class="btn-tool copy-btn" onclick="copyResult()">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copier</span>
+                        </button>
+                        <button type="button" class="btn-tool btn-download download-btn" onclick="downloadPDF()">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Télécharger PDF</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Display Area with Empty State -->
+                <div id="pdfContent" class="plan-display-stage">
+                    <div id="resultPlaceholder" class="empty-state-holder">
+                        <i class="fa-regular fa-file-lines empty-doc-icon"></i>
+                        <p class="empty-caption">Votre plan de voyage s'affichera ici...</p>
+                    </div>
+
+                    <div id="resultBox" class="result-rendered-body hidden"></div>
+                </div>
+            </div>
+
+
+            <!-- COLUMN 3: VALIDATION HUMAINE (HITL) -->
+            <div id="approvalSection" class="dashboard-card">
+                <div class="card-top-bar">
+                    <div class="card-identity">
+                        <div class="avatar-icon icon-orange-user">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="col-title">Validation humaine</h3>
+                            <span class="col-sub">Human-in-the-Loop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="approvalRequest" class="card-explanatory-text">
+                    Examinez l'itinéraire proposé et approuvez-le ou donnez vos commentaires avant la génération du plan final.
+                </p>
+
+                <textarea
+                    id="approvalFeedback"
+                    class="feedback-textarea"
+                    placeholder="Ajoutez vos commentaires de révision, par exemple : réduire le coût de l'hôtel et ajouter une journée libre..."
+                ></textarea>
+
+                <div class="hitl-actions-stack">
+                    <button id="approveBtn" class="btn-hitl-primary" onclick="submitApproval(true)">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Approuver et générer le plan final</span>
+                    </button>
+
+                    <button id="reviseBtn" class="btn-hitl-secondary" onclick="submitApproval(false)">
+                        <i class="fa-solid fa-pen"></i>
+                        <span>Réviser avec les commentaires</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+             TECHNOLOGY ARCHITECTURE SECTION
+        ====================================================== -->
+        <section id="features" class="tech-section">
+            <div class="tech-header-box">
+                <span class="section-eyebrow">TECHNOLOGIE</span>
+                <h2 class="tech-section-title">Une architecture IA moderne et robuste</h2>
+                <p class="tech-section-sub">
+                    TripMate AI combine les architectures multi-agents les plus avancées pour concevoir des voyages sur-mesure, sécurisés et validés par l'humain.
+                </p>
+            </div>
+
+            <div class="tech-card-grid">
+                <div class="tech-box">
+                    <i class="fa-solid fa-brain"></i>
+                    <strong>LangGraph</strong>
+                    <span>Orchestration cyclique multi-agents</span>
+                </div>
+                <div class="tech-box">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <strong>MCP</strong>
+                    <span>Model Context Protocol & serveurs d'outils</span>
+                </div>
+                <div class="tech-box">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <strong>Supervisor</strong>
+                    <span>Coordination et routage intelligent</span>
+                </div>
+                <div class="tech-box">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <strong>Guardrails</strong>
+                    <span>Sécurisation et conformité des entrées</span>
+                </div>
+                <div class="tech-box">
+                    <i class="fa-solid fa-user-check"></i>
+                    <strong>HITL</strong>
+                    <span>Validation et contrôle humain actif</span>
+                </div>
+                <div class="tech-box">
+                    <i class="fa-solid fa-database"></i>
+                    <strong>SQLite / Postgre</strong>
+                    <span>Persistance des états de threads</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+    <footer id="about" class="app-footer">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <img src="/static/atoz.png" alt="AtoZ SERVICES" class="footer-logo">
+            </div>
+
+            <div class="footer-center-links">
+                <a href="#planner">Planificateur</a>
+                <a href="#features">Fonctionnalités</a>
+                <a href="#about">À propos</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="footer-right-tagline">
+                Guided by <strong class="orange-text">vision</strong>, driven by values
+            </div>
         </div>
-      </div>
+    </footer>
 
-      <div class="input-area">
-        <textarea
-          id="userInput"
-          placeholder="Plan a complete 7 days Japan trip including flights, hotels and sightseeing under 2 lakhs..."
-        ></textarea>
-        <button id="sendBtn" onclick="sendMessage()">
-          <span id="btnText">Generate Draft</span>
-          <span id="btnLoader" class="loader hidden"></span>
-        </button>
-      </div>
+    <!-- Libraries: Marked & html2pdf -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-      <div class="quick-prompts">
-        <button onclick="setPrompt('Plan a complete 7 days Japan trip from Bangladesh including flights, hotels and sightseeing under 2 lakhs.')">
-          Japan Trip
-        </button>
-        <button onclick="setPrompt('Plan a 5 days Dubai trip from Dhaka with flights, hotels and sightseeing.')">
-          Dubai Trip
-        </button>
-        <button onclick="setPrompt('Plan a 7 days Thailand trip from Bangladesh with budget hotels and sightseeing.')">
-          Thailand Trip
-        </button>
-        <button onclick="setPrompt('Give me all country flight info.')">
-          Global Flights
-        </button>
-      </div>
-    </section>
+    <!-- Application Script -->
+    <script src="/static/script.js?v=3"></script>
 
-    <section id="workflowSection" class="workflow-section hidden">
-      <div class="workflow-header">
-        <div>
-          <span class="eyebrow">Supervisor Agent</span>
-          <h2>Execution Plan</h2>
-        </div>
-        <span id="guardrailBadge" class="guardrail-badge">Guardrail passed</span>
-      </div>
-      <p id="supervisorReasoning" class="supervisor-reasoning"></p>
-      <div id="agentChips" class="agent-chips"></div>
-    </section>
-
-    <section id="resultSection" class="result-section hidden">
-      <div class="result-header">
-        <div>
-          <h2 id="resultTitle">Your AI Travel Plan</h2>
-          <p id="threadInfo">Thread ID: -</p>
-        </div>
-        <div class="result-actions">
-          <button class="copy-btn" onclick="copyResult()">Copy</button>
-          <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
-        </div>
-      </div>
-
-      <div id="pdfContent" class="pdf-content">
-        <h1 class="pdf-title">AI Travel Plan</h1>
-        <div id="resultBox" class="result-box"></div>
-      </div>
-    </section>
-
-    <section id="approvalSection" class="approval-section hidden">
-      <div class="approval-icon">👤</div>
-      <div class="approval-content">
-        <span class="eyebrow">Human-in-the-Loop</span>
-        <h2>Review the draft itinerary</h2>
-        <p id="approvalRequest">
-          Approve the draft or provide feedback before the final plan is generated.
-        </p>
-
-        <textarea
-          id="approvalFeedback"
-          class="feedback-input"
-          placeholder="Add revision feedback, for example: reduce the hotel cost and add one free day..."
-        ></textarea>
-
-        <div class="approval-actions">
-          <button id="approveBtn" class="approve-btn" onclick="submitApproval(true)">
-            Approve & Generate Final
-          </button>
-          <button id="reviseBtn" class="revise-btn" onclick="submitApproval(false)">
-            Revise Using Feedback
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section id="errorBox" class="error-box hidden"></section>
-  </main>
-
-  <footer>
-    Built with FastAPI, LangGraph, Groq, PostgreSQL, Tavily, AviationStack and MCP
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="/static/script.js"></script>
 </body>
 </html>
